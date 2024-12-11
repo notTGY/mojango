@@ -56,15 +56,15 @@ func QueryPlayerApi(player string) (
 	client := &http.Client{}
 	resp, err := client.Do(req)
 
+	if err != nil {
+		return playerResponse, err
+	}
   if resp.StatusCode != 200 {
     err = errors.New(fmt.Sprintf(
       "Code %d", resp.StatusCode,
     ))
     return playerResponse, err
   }
-	if err != nil {
-		return playerResponse, err
-	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
