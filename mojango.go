@@ -2,10 +2,10 @@ package mojango
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
-  "errors"
 )
 
 func QueryReversePlayerApi(uuid string) (ReversePlayerResponse, error) {
@@ -21,12 +21,12 @@ func QueryReversePlayerApi(uuid string) (ReversePlayerResponse, error) {
 	if err != nil {
 		return reversePlayerResponse, err
 	}
-  if resp.StatusCode != 200 {
-    err = errors.New(fmt.Sprintf(
-      "Code %d", resp.StatusCode,
-    ))
-    return reversePlayerResponse, err
-  }
+	if resp.StatusCode != 200 {
+		err = errors.New(fmt.Sprintf(
+			"Code %d", resp.StatusCode,
+		))
+		return reversePlayerResponse, err
+	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
@@ -41,13 +41,13 @@ func QueryReversePlayerApi(uuid string) (ReversePlayerResponse, error) {
 }
 
 func QueryPlayerApi(player string) (
-  PlayerResponse, error,
+	PlayerResponse, error,
 ) {
 	var playerResponse PlayerResponse
 	url := fmt.Sprintf(
-    "https://api.mojang.com/users/profiles/minecraft/%s?at=0",
-    player,
-  )
+		"https://api.mojang.com/users/profiles/minecraft/%s?at=0",
+		player,
+	)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return playerResponse, err
@@ -59,12 +59,12 @@ func QueryPlayerApi(player string) (
 	if err != nil {
 		return playerResponse, err
 	}
-  if resp.StatusCode != 200 {
-    err = errors.New(fmt.Sprintf(
-      "Code %d", resp.StatusCode,
-    ))
-    return playerResponse, err
-  }
+	if resp.StatusCode != 200 {
+		err = errors.New(fmt.Sprintf(
+			"Code %d", resp.StatusCode,
+		))
+		return playerResponse, err
+	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
